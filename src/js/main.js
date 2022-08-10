@@ -3,6 +3,7 @@ import ColorThief from "colorthief";
 import chroma from "chroma-js";
 import $ from "jquery";
 import moment from "moment";
+import axios from 'axios'
 
 // Break if Dribbblish has already been initialized
 if ($("html").attr("dribbblish-js-installed") != undefined) throw new Error("Dribbblish has already been initialized");
@@ -27,6 +28,8 @@ Dribbblish.config.register({
     description: "Show a loading screen at startup while things are loaded in the background",
     defaultValue: true
 });
+
+const YEELIGHT_SERVER_PORT = '8080'
 
 // In the future maybe have some useful info here
 const loadingHints = ["Getting things ready...", "Starting up...", "Just one moment..."];
@@ -703,8 +706,20 @@ Dribbblish.on("ready", () => {
         ]
     });
 
-    function updateColors(checkDarkMode = true, sideColHex) {
+    async function syncSidebarColorWithYeeLight(color) {
+        try {
+            await axios.post(`localhost:${YEELIGHT_SERVER_PORT}`, {
+                color,
+            });
+        } catch (e) {
+            console.error(`Failed to send sidebar color to YeeLight server: `, e.message);
+        }
+    }
+
+    async function updateColors(checkDarkMode = true, sideColHex) {
         if (sideColHex == undefined) return registerCoverListener();
+
+        await syncSidebarColorWithYeeLight(sideColHex);
 
         let isLightBg = isLight(textColorBg);
         let textColHex = sideColHex;
