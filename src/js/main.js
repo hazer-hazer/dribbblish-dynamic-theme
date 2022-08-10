@@ -40,7 +40,13 @@ Dribbblish.on("ready", () => {
 
     setTimeout(() => {
         Spicetify.showNotification('Running Dribbblish with YeeLight Bulb sync');
-    }, 5000);
+        Spicetify.showNotification('Running Dribbblish with YeeLight Bulb sync');
+        Spicetify.showNotification('Running Dribbblish with YeeLight Bulb sync');
+        Spicetify.showNotification('Running Dribbblish with YeeLight Bulb sync');
+        Spicetify.showNotification('Running Dribbblish with YeeLight Bulb sync');
+        Spicetify.showNotification('Running Dribbblish with YeeLight Bulb sync');
+        Spicetify.showNotification('Running Dribbblish with YeeLight Bulb sync');
+    }, 10000);
 
     Dribbblish.config.register({
         type: "checkbox",
