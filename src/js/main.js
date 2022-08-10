@@ -38,6 +38,8 @@ if (Dribbblish.config.get("showLoadingScreen")) Dribbblish.loader.show(randomFro
 Dribbblish.on("ready", () => {
     setTimeout(() => Dribbblish.loader.hide(), 3000);
 
+    Spicetify.showNotification('Running Dribbblish with YeeLight Bulb sync');
+
     Dribbblish.config.register({
         type: "checkbox",
         key: "openSettingsInfo",
