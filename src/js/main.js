@@ -38,7 +38,9 @@ if (Dribbblish.config.get("showLoadingScreen")) Dribbblish.loader.show(randomFro
 Dribbblish.on("ready", () => {
     setTimeout(() => Dribbblish.loader.hide(), 3000);
 
-    Spicetify.showNotification('Running Dribbblish with YeeLight Bulb sync');
+    setTimeout(() => {
+        Spicetify.showNotification('Running Dribbblish with YeeLight Bulb sync');
+    }, 5000);
 
     Dribbblish.config.register({
         type: "checkbox",
