@@ -32,21 +32,14 @@ Dribbblish.config.register({
 const YEELIGHT_SERVER_PORT = '8080'
 
 // In the future maybe have some useful info here
-const loadingHints = ["Getting things ready...", "Starting up...", "Just one moment..."];
+// const loadingHints = ["Getting things ready...", "Starting up...", "Just one moment..."];
+const loadingHints = [
+    `I'M DEPRESSED`
+]
 if (Dribbblish.config.get("showLoadingScreen")) Dribbblish.loader.show(randomFromArray(loadingHints));
 
 Dribbblish.on("ready", () => {
     setTimeout(() => Dribbblish.loader.hide(), 3000);
-
-    setTimeout(() => {
-        Spicetify.showNotification('Running Dribbblish with YeeLight Bulb sync');
-        Spicetify.showNotification('Running Dribbblish with YeeLight Bulb sync');
-        Spicetify.showNotification('Running Dribbblish with YeeLight Bulb sync');
-        Spicetify.showNotification('Running Dribbblish with YeeLight Bulb sync');
-        Spicetify.showNotification('Running Dribbblish with YeeLight Bulb sync');
-        Spicetify.showNotification('Running Dribbblish with YeeLight Bulb sync');
-        Spicetify.showNotification('Running Dribbblish with YeeLight Bulb sync');
-    }, 10000);
 
     Dribbblish.config.register({
         type: "checkbox",
