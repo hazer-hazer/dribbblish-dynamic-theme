@@ -34,7 +34,7 @@ const YEELIGHT_SERVER_PORT = '8080'
 // In the future maybe have some useful info here
 // const loadingHints = ["Getting things ready...", "Starting up...", "Just one moment..."];
 const loadingHints = [
-    `I'M DEPRESSED`
+    `Yooooooooooooooooooo...`
 ]
 if (Dribbblish.config.get("showLoadingScreen")) Dribbblish.loader.show(randomFromArray(loadingHints));
 

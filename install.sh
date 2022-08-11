@@ -5,7 +5,7 @@
 set -e
 
 if [ $# -eq 0 ]; then
-    latest_release_uri="https://api.github.com/repos/JulienMaille/dribbblish-dynamic-theme/releases/latest"
+    latest_release_uri="https://api.github.com/repos/hazer-hazer/dribbblish-dynamic-theme/releases/latest"
     echo "DOWNLOADING    $latest_release_uri"
     version=$( command curl -sSf "$latest_release_uri" |
         command grep -Eo "tag_name\": .*" |
