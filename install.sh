@@ -28,7 +28,7 @@ fi
 tar_file="$spicetify_install/${version}.zip"
 
 echo "DOWNLOADING    v$version  $download_uri"
-curl --fail --location --progress-bar --output "$tar_file" "$download_uri"
+curl --location --progress-bar --output "$tar_file" "$download_uri"
 cd "$spicetify_install"
 
 echo "EXTRACTING     $tar_file"
