@@ -7,10 +7,10 @@ set -e
 if [ $# -eq 0 ]; then
     latest_release_uri="https://api.github.com/repos/hazer-hazer/dribbblish-dynamic-theme/releases/latest"
     echo "DOWNLOADING    $latest_release_uri"
-    version=$( command curl -sSf "$latest_release_uri" |
+    version=$( command curl -S "$latest_release_uri" |
         command grep -Eo "tag_name\": .*" |
         command grep -Eo "[0-9.]+" )
-    download_uri=$( command curl -sSf "$latest_release_uri" |
+    download_uri=$( command curl -S "$latest_release_uri" |
         command grep -Eo "browser_download_url\": .*" |
         command grep -Eo "http.*?\.zip" )
     if [ ! "$version" ]; then exit 1; fi
