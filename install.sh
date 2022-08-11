@@ -13,7 +13,10 @@ if [ $# -eq 0 ]; then
     download_uri=$( command curl -S "$latest_release_uri" |
         command grep -Eo "browser_download_url\": .*" |
         command grep -Eo "http.*?\.zip" )
-    if [ ! "$version" ]; then exit 1; fi
+    if [ ! "$version" ]; then
+        echo "No version found"
+        exit 1;
+    fi
 else
     version="${1}"
 fi
