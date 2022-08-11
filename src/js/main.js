@@ -712,7 +712,7 @@ Dribbblish.on("ready", () => {
     async function syncSidebarColorWithYeeLight(color) {
         try {
             Spicetify.showNotification('Sending color to YeeLight...');
-            await axios.post(`http://localhost:${YEELIGHT_SERVER_PORT}/color`, {
+            await axios.post(`http://localhost:8080/color`, {
                 color,
             });
         } catch (e) {
