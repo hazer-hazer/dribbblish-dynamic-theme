@@ -34,7 +34,7 @@ const YEELIGHT_SERVER_PORT = '8080'
 // In the future maybe have some useful info here
 // const loadingHints = ["Getting things ready...", "Starting up...", "Just one moment..."];
 const loadingHints = [
-    `Yooooooooooooooooooo...`
+    `Keking...`
 ]
 if (Dribbblish.config.get("showLoadingScreen")) Dribbblish.loader.show(randomFromArray(loadingHints));
 
@@ -712,7 +712,7 @@ Dribbblish.on("ready", () => {
     async function syncSidebarColorWithYeeLight(color) {
         try {
             Spicetify.showNotification('Sending color to YeeLight...');
-            await axios.post(`http://localhost:8080/color`, {
+            await axios.post(`http://localhost:${YEELIGHT_SERVER_PORT}/color`, {
                 color,
             });
         } catch (e) {
