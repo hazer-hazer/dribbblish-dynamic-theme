@@ -29,6 +29,7 @@ Dribbblish.config.register({
     defaultValue: true
 });
 
+let lastSidebarColor = null
 const YEELIGHT_SERVER_PORT = '8080'
 
 // In the future maybe have some useful info here
@@ -516,7 +517,7 @@ Dribbblish.on("ready", () => {
         $("html").css(`--spice-rgb-${name}`, chroma(color).rgb().join(","));
     }
 
-    function toggleDark(setDark) {
+    async function toggleDark(setDark) {
         if (setDark === undefined) setDark = isLight(textColorBg);
         $("html").css("--is_light", setDark ? 0 : 1);
 
@@ -538,7 +539,7 @@ Dribbblish.on("ready", () => {
         setRootColor("subtext", setDark ? "#EAEAEA" : "#3D3D3D");
         setRootColor("notification", setDark ? "#303030" : "#DDDDDD");
 
-        updateColors(false);
+        await updateColors(false);
     }
 
     function checkDarkLightMode() {
@@ -578,7 +579,7 @@ Dribbblish.on("ready", () => {
         `,
         data: { colorthief: "Colorthief", vibrant: "Vibrant", static: "Static" },
         defaultValue: "colorthief",
-        onChange: () => updateColors(),
+        onChange: async () => await updateColors(),
         showChildren: (val) => {
             if (val == "static") return ["colorOverride"];
             return ["colorSelectionMode"];
@@ -591,7 +592,7 @@ Dribbblish.on("ready", () => {
                 description: "The Color of the Theme",
                 defaultValue: "#1ed760",
                 fireInitialChange: false,
-                onChange: () => updateColors()
+                onChange: async () => await updateColors()
             },
             {
                 area: "Theme",
@@ -606,7 +607,7 @@ Dribbblish.on("ready", () => {
                 `,
                 data: { default: "Default", luminance: "Luminance" },
                 defaultValue: "default",
-                onChange: () => updateColors(),
+                onChange: async () => await updateColors(),
                 showChildren: (val) => {
                     if (val == "dynamicLuminance") return ["lightModeLuminance", "darkModeLuminance"];
                     return false;
@@ -623,7 +624,7 @@ Dribbblish.on("ready", () => {
                         defaultValue: 0.6,
                         data: { min: 0, max: 1, step: 0.05 },
                         fireInitialChange: false,
-                        onChange: () => updateColors()
+                        onChange: async () => await updateColors()
                     },
                     {
                         type: "number",
@@ -636,7 +637,7 @@ Dribbblish.on("ready", () => {
                         defaultValue: 0.2,
                         data: { min: 0, max: 1, step: 0.05 },
                         fireInitialChange: false,
-                        onChange: () => updateColors()
+                        onChange: async () => await updateColors()
                     }
                 ]
             }
@@ -710,20 +711,23 @@ Dribbblish.on("ready", () => {
     });
 
     async function syncSidebarColorWithYeeLight(color) {
+        if (color === lastSidebarColor) {
+            return
+        }
+
         try {
-            Spicetify.showNotification('Sending color to YeeLight...');
-            await axios.post(`http://localhost:${YEELIGHT_SERVER_PORT}/color`, {
+            Spicetify.showNotification(`Sending color [${color}] to YeeLight...`);
+            const result = await axios.post(`http://localhost:${YEELIGHT_SERVER_PORT}/color`, {
                 color,
             });
+            lastSidebarColor = color
         } catch (e) {
-            Spicetify.showNotification(`Failed to send sidebar color to YeeLight server: ${e.message}`);
+            Spicetify.showNotification(`Failed to send sidebar color to YeeLight server: ${JSON.stringify(e, null, 2)}`);
         }
     }
 
     async function updateColors(checkDarkMode = true, sideColHex) {
         if (sideColHex == undefined) return registerCoverListener();
-
-        await syncSidebarColorWithYeeLight(sideColHex);
 
         let isLightBg = isLight(textColorBg);
         let textColHex = sideColHex;
@@ -752,6 +756,8 @@ Dribbblish.on("ready", () => {
         setRootColor("sidebar-text", isLight(sideColHex) ? "#000000" : "#FFFFFF");
 
         if (checkDarkMode) checkDarkLightMode([textColHex, sideColHex]);
+
+        await syncSidebarColorWithYeeLight(sideColHex);
     }
 
     async function songchange() {
@@ -882,7 +888,7 @@ Dribbblish.on("ready", () => {
                 color = palette[getClosestToNum(Object.keys(palette), wantedLuminance)].hex();
             }
 
-            updateColors(false, color);
+            await updateColors(false, color);
         }
     }
 
