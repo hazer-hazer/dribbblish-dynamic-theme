@@ -19,5 +19,3 @@ else
 fi
 
 spicetify apply
-
-sleep 100
